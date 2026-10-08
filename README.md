@@ -68,7 +68,7 @@ sudo ~/ble/bin/python3 ble_central.py --service 1111 \
 ## 4. Optional problem 1: GATTLIB (C)
 
 ```bash
-cd gattlib && bash build_gattlib.sh
+cd gattlib && bash build_gattlib.sh     # patches libpcre -> libpcre2-8 for Debian 13
 cd gattlib-src/build
 sudo ./examples/ble_scan/ble_scan                       # scan
 sudo ./examples/discover/discover XX:XX:XX:XX:XX:XX     # list services/chars
