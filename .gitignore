@@ -1,0 +1,9 @@
+# keep the repo to the Basic problem and Option 1 only
+.DS_Store
+*.pdf
+__pycache__/
+gattlib/gattlib-src/
+gattlib/company_name.py
+gattlib/gatt_names.py
+gattlib/pair_agent.py
+gattlib/my_adv_scan/

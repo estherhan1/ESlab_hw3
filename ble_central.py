@@ -23,6 +23,7 @@ from bluepy.btle import (BTLEException, DefaultDelegate, Peripheral, Scanner,
                          UUID)
 
 CCCD_UUID = UUID(0x2902)
+PROP_WRITE = 0x08
 PROP_NOTIFY = 0x10
 PROP_INDICATE = 0x20
 
@@ -196,13 +197,19 @@ def main():
             except BTLEException as e:
                 print("Read failed (%s), continuing" % e)
 
-        if args.write:
+        if args.write and not ch.properties & PROP_WRITE:
+            print("Skipping write: characteristic has no WRITE property "
+                  "(enable Write for it in the phone app)")
+        elif args.write:
             data = bytes.fromhex(args.write)
             ch.write(data, withResponse=True)
-            print("Wrote value: %s" % data.hex())
+            print("Wrote value: %s  (%r)" % (data.hex(), data))
             if ch.supportsRead():
-                val = ch.read()
-                print("Read back : %s  (%r)" % (val.hex(), val))
+                try:
+                    val = ch.read()
+                    print("Read back : %s  (%r)" % (val.hex(), val))
+                except BTLEException as e:
+                    print("Read back failed (%s)" % e)
 
         # ---- CCCD setting ----
         cccd_handle = find_cccd(ch)
