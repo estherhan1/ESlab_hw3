@@ -188,8 +188,13 @@ def main():
               % (ch.uuid, ch.getHandle(), ch.propertiesToString()))
 
         if ch.supportsRead():
-            val = ch.read()
-            print("Read value: %s  (%r)" % (val.hex(), val))
+            # iOS may refuse a read (e.g. ATT error 0xF2) while the app has
+            # no value set; that must not stop the CCCD demo.
+            try:
+                val = ch.read()
+                print("Read value: %s  (%r)" % (val.hex(), val))
+            except BTLEException as e:
+                print("Read failed (%s), continuing" % e)
 
         if args.write:
             data = bytes.fromhex(args.write)

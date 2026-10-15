@@ -20,6 +20,9 @@ mkdir -p build && cd build
 # printf logging so errors show up in the terminal instead of syslog
 cmake .. -DGATTLIB_LOG_BACKEND=printf -DGATTLIB_LOG_LEVEL=1
 make -j2
+# install libgattlib.so, gattlib.h and gattlib.pc under /usr/local
+sudo make install
+sudo ldconfig
 
 echo
 echo "Built examples:"
